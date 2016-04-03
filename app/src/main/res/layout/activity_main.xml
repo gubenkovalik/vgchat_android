@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#5994f4"
+    tools:context="ml.fastest.vgchat.MainActivity">
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="VG Chat"
+        android:textColor="#fff"
+        android:textSize="37sp"
+        android:id="@+id/logo"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/email"
+        android:layout_alignEnd="@+id/email"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="20dp"
+        android:gravity="center" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/email"
+        android:background="@drawable/input"
+
+        android:padding="15dp"
+        android:hint="E-mail"
+        android:layout_below="@+id/logo"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/password"
+        android:background="@drawable/input"
+        android:padding="15dp"
+        android:hint="Password"
+        android:layout_marginTop="31dp"
+        android:layout_below="@+id/email"
+        android:layout_alignLeft="@+id/email"
+        android:layout_alignStart="@+id/email"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:inputType="textPassword" />
+
+    <com.gc.materialdesign.views.ButtonFlat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Forgot password"
+        android:onClick="forgotAction"
+        android:textColor="#fff"
+        android:id="@+id/forgot"
+        android:layout_alignTop="@+id/view2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/view2" />
+    <com.gc.materialdesign.views.ButtonRectangle
+        android:layout_marginTop="31dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/password"
+        android:layout_alignRight="@+id/password"
+        android:text="Login"
+        android:onClick="loginAction"
+        android:layout_alignEnd="@+id/password"
+        android:id="@+id/view" />
+    <com.gc.materialdesign.views.ButtonRectangle
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:onClick="registerAction"
+        android:layout_alignTop="@+id/view"
+        android:layout_toLeftOf="@+id/view"
+        android:layout_toStartOf="@+id/view"
+        android:id="@+id/view2" />
+</RelativeLayout>

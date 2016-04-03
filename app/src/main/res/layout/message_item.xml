@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:padding="20dp"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:textSize="40sp"
+        android:textColor="#008000"
+        android:text="·"
+        android:id="@+id/online"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:visibility="invisible"
+        android:layout_alignParentStart="true"
+        android:gravity="center_vertical" />
+    <ml.fastest.vgchat.RoundedImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/avatar"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/online"
+        android:layout_toEndOf="@+id/online" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Nickname"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:id="@+id/nickname"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/avatar"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="asdasd"
+        android:id="@+id/message"
+        android:layout_below="@+id/nickname"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/avatar"
+        android:layout_toEndOf="@+id/avatar" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00:00"
+        android:id="@+id/date"
+        android:layout_above="@+id/message"
+        android:layout_alignRight="@+id/nickname"
+        android:layout_alignEnd="@+id/nickname" />
+
+
+</RelativeLayout>
