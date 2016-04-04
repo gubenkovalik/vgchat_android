@@ -79,7 +79,7 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
 
-        if(!Facade.isLoggedIn(this)){
+        if (!Facade.isLoggedIn(this)) {
             startActivity(new Intent(this, MainActivity.class));
             finishActivity(0);
             finish();
@@ -92,7 +92,8 @@ public class ChatActivity extends AppCompatActivity {
 
         try {
             getSupportActionBar().show();
-        }catch(Exception e){}
+        } catch (Exception e) {
+        }
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         nickname = prefs.getString("nickname", "");
@@ -110,8 +111,7 @@ public class ChatActivity extends AppCompatActivity {
         listView.setStackFromBottom(true);
 
 
-
-        final SnackBar errorInformer = new SnackBar(this,"Connection lost. Trying to reconnect...");
+        final SnackBar errorInformer = new SnackBar(this, "Connection lost. Trying to reconnect...");
         errorInformer.setIndeterminate(true);
 
         Timer checker = new Timer();
@@ -119,7 +119,7 @@ public class ChatActivity extends AppCompatActivity {
         checker.schedule(new TimerTask() {
             @Override
             public void run() {
-                if(!mSocket.connected() && CONNECTED){
+                if (!mSocket.connected() && CONNECTED) {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -130,7 +130,7 @@ public class ChatActivity extends AppCompatActivity {
                     CONNECTED = false;
                 }
 
-                if(mSocket.connected() && !CONNECTED){
+                if (mSocket.connected() && !CONNECTED) {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -158,12 +158,9 @@ public class ChatActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 String msg = message.getText().toString();
 
-                try
-                {
+                try {
                     msg = new String(msg.getBytes(), "UTF-8");
-                }
-                catch (UnsupportedEncodingException e)
-                {
+                } catch (UnsupportedEncodingException e) {
                     Log.e("utf8", "conversion", e);
                 }
 
@@ -183,7 +180,6 @@ public class ChatActivity extends AppCompatActivity {
                         mSocket.emit("chat message", args);
 
 
-
                         MessageSending m = new MessageSending();
                         m.setMessage(msg);
 
@@ -194,7 +190,6 @@ public class ChatActivity extends AppCompatActivity {
 
                     }
 
-
                     final Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -204,7 +199,7 @@ public class ChatActivity extends AppCompatActivity {
                                 args2.put("sessid", sessid);
                                 args2.put("nickname", nickname);
                                 mSocket.emit("chat notyping", args2);
-                            }catch(Exception e){
+                            } catch (Exception e) {
                                 Log.e("Chat", "error", e);
                             }
                         }
@@ -234,7 +229,7 @@ public class ChatActivity extends AppCompatActivity {
                             typingOut.cancel();
                             this.cancel();
                         }
-                    },4000, 1000);
+                    }, 4000, 1000);
                 } catch (Exception e) {
                     Log.e("Excc", e.getMessage(), e);
                 }
@@ -265,21 +260,22 @@ public class ChatActivity extends AppCompatActivity {
 
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         Intent startMain = new Intent(Intent.ACTION_MAIN);
         startMain.addCategory(Intent.CATEGORY_HOME);
         startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(startMain);
         this.onPause();
     }
+
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
         mIsInForegroundMode = false;
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         mIsInForegroundMode = true;
     }
@@ -427,17 +423,17 @@ public class ChatActivity extends AppCompatActivity {
             boolean active = Boolean.parseBoolean(act.get("active").toString());
 
 
-            for(int i = 0; i < messages.size(); i++) {
+            for (int i = 0; i < messages.size(); i++) {
                 Message m = messages.get(i);
                 int mid = Integer.parseInt(m.getUser_id());
 
-                if(mid == userId) {
+                if (mid == userId) {
                     adapter.setActive(i, active);
                     adapter.notifyDataSetChanged();
                 }
             }
 
-        } catch(Exception e){
+        } catch (Exception e) {
             Log.e("Exc", e.getLocalizedMessage());
         }
     }
@@ -468,20 +464,20 @@ public class ChatActivity extends AppCompatActivity {
         }
     };
 
-    private void sendNotification(final String avatar, final String nickname, final String message){
-        new AsyncTask<Void,Void,Void>(){
+    private void sendNotification(final String avatar, final String nickname, final String message) {
+        new AsyncTask<Void, Void, Void>() {
 
             @Override
             protected Void doInBackground(Void... params) {
                 Bitmap picture = null;
                 try {
-                    picture = Picasso.with(ChatActivity.this).load("https://fastest.ml"+avatar).get();
-                } catch(IOException e){
+                    picture = Picasso.with(ChatActivity.this).load("https://fastest.ml" + avatar).get();
+                } catch (IOException e) {
                     picture = BitmapFactory.decodeResource(getResources(),
                             R.drawable.notif);
                 }
 
-                if(!nickname.equals(ChatActivity.this.nickname)) {
+                if (!nickname.equals(ChatActivity.this.nickname)) {
                     NewMessageNotification.notify(ChatActivity.this, picture, nickname, message, 0, Notification.CATEGORY_MESSAGE);
                 }
                 return null;
@@ -497,10 +493,10 @@ public class ChatActivity extends AppCompatActivity {
                 int userId = Integer.parseInt(key);
                 boolean online = data.getBoolean(key);
 
-                for(int i = 0; i < messages.size(); i++) {
+                for (int i = 0; i < messages.size(); i++) {
                     Message m = messages.get(i);
                     int mid = Integer.parseInt(m.getUser_id());
-                    if(mid == userId) {
+                    if (mid == userId) {
                         adapter.setOnline(i, online);
                         adapter.notifyDataSetChanged();
                     }
@@ -508,7 +504,7 @@ public class ChatActivity extends AppCompatActivity {
 
                 }
             }
-        } catch(Exception e){
+        } catch (Exception e) {
 
         }
     }
