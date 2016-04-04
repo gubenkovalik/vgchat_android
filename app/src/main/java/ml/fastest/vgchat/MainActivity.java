@@ -7,10 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
+import com.crashlytics.android.Crashlytics;
 import com.gc.materialdesign.widgets.SnackBar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.fabric.sdk.android.Fabric;
+import ml.fastest.vgchat.core.Facade;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,10 +26,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-
 
 
     }
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         Facade.login(this, new Facade.OnResult() {
             @Override
             public void action(boolean success, String error) {
-                if(!success) {
+                if (!success) {
                     new SnackBar(MainActivity.this, error).show();
                 } else {
                     startActivity(new Intent(MainActivity.this, ChatActivity.class));

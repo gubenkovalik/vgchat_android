@@ -1,4 +1,4 @@
-package ml.fastest.vgchat;
+package ml.fastest.vgchat.core;
 
 import android.content.Context;
 import android.graphics.Bitmap;

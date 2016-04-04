@@ -1,4 +1,4 @@
-package ml.fastest.vgchat;
+package ml.fastest.vgchat.core;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import jp.satorufujiwara.http.LightHttpClient;
 import jp.satorufujiwara.http.Request;
 import jp.satorufujiwara.http.Response;
+import jp.satorufujiwara.http.gson.GsonConverterProvider;
+import ml.fastest.vgchat.models.Message;
+import ml.fastest.vgchat.models.MessageSending;
 
 /**
  * Created by valik on 15.03.16.
@@ -204,26 +207,30 @@ public class Facade {
         }
     }
 
-    public static void sendMessage(Context context, final String message){
+    public static void sendMessage(Context context, final MessageSending message){
 
         final String access_token = PreferenceManager.getDefaultSharedPreferences(context)
                 .getString("access_token", "");
+        message.setAccess_token(access_token);
 
         new AsyncTask<Void,Void,Void>(){
 
             @Override
             protected Void doInBackground(Void... params) {
                 LightHttpClient httpClient = new LightHttpClient();
+                httpClient.setConverterProvider(new GsonConverterProvider());
                 Request request = httpClient.newRequest()
-                        .url("https://fastest.ml/android/send?message="+message+"&access_token=" + access_token)
-                        .get()
+                        .url("https://fastest.ml/android/send")
+                        .post(message, MessageSending.class)
                         .build();
                 try {
                     Response<String> response = httpClient.newCall(request).execute();
 
                     String body = response.getBody();
 
-                } catch (Exception e){}
+                } catch (Exception e){
+                    Log.e("ex", e.getLocalizedMessage());
+                }
                 return null;
             }
         }.execute();

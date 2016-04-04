@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -31,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -43,6 +45,10 @@ import java.util.TimerTask;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.fabric.sdk.android.Fabric;
+import ml.fastest.vgchat.core.Facade;
+import ml.fastest.vgchat.core.MessagesAdapter;
+import ml.fastest.vgchat.models.Message;
+import ml.fastest.vgchat.models.MessageSending;
 import ml.fastest.vgchat.notifications.NewMessageNotification;
 
 public class ChatActivity extends AppCompatActivity {
@@ -72,25 +78,21 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
+
         if(!Facade.isLoggedIn(this)){
             startActivity(new Intent(this, MainActivity.class));
             finishActivity(0);
             finish();
 
             return;
-
         }
+
         setContentView(R.layout.activity_chat);
         ButterKnife.bind(this);
+
         try {
             getSupportActionBar().show();
-        }catch(Exception e){
-
-        }
-
-
-
-
+        }catch(Exception e){}
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         nickname = prefs.getString("nickname", "");
@@ -104,7 +106,8 @@ public class ChatActivity extends AppCompatActivity {
         mSocket.on("activity", onUserActivity);
         mSocket.connect();
 
-
+        listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
+        listView.setStackFromBottom(true);
 
 
 
@@ -149,11 +152,21 @@ public class ChatActivity extends AppCompatActivity {
 
                 }
             }
-        }, 1000, 500);
+        }, 1000, 2000);
         message.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 String msg = message.getText().toString();
+
+                try
+                {
+                    msg = new String(msg.getBytes(), "UTF-8");
+                }
+                catch (UnsupportedEncodingException e)
+                {
+                    Log.e("utf8", "conversion", e);
+                }
+
                 if (msg.trim().length() == 0) {
                     return true;
                 } else {
@@ -169,16 +182,33 @@ public class ChatActivity extends AppCompatActivity {
                         args.put("date", dateFormat.format(new Date()).toString());
                         mSocket.emit("chat message", args);
 
-                        JSONObject args2 = new JSONObject();
-                        args2.put("sessid", sessid);
-                        args2.put("nickname", nickname);
-                        mSocket.emit("chat notyping", args2);
+
+
+                        MessageSending m = new MessageSending();
+                        m.setMessage(msg);
+
+
+                        Facade.sendMessage(ChatActivity.this, m);
 
                     } catch (Exception e) {
 
                     }
-                    Facade.sendMessage(ChatActivity.this, msg.trim());
 
+
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                JSONObject args2 = new JSONObject();
+                                args2.put("sessid", sessid);
+                                args2.put("nickname", nickname);
+                                mSocket.emit("chat notyping", args2);
+                            }catch(Exception e){
+                                Log.e("Chat", "error", e);
+                            }
+                        }
+                    }, 1000);
 
                     scrollMyListViewToBottom();
                     message.getText().clear();
@@ -196,6 +226,7 @@ public class ChatActivity extends AppCompatActivity {
                     args.put("sessid", sessid);
                     args.put("nickname", nickname);
                     mSocket.emit("chat typing", args);
+                    typingOut = new Timer();
                     typingOut.schedule(new TimerTask() {
                         @Override
                         public void run() {
@@ -205,7 +236,7 @@ public class ChatActivity extends AppCompatActivity {
                         }
                     },4000, 1000);
                 } catch (Exception e) {
-
+                    Log.e("Excc", e.getMessage(), e);
                 }
             }
 
@@ -395,17 +426,16 @@ public class ChatActivity extends AppCompatActivity {
             int userId = Integer.parseInt(act.get("id").toString());
             boolean active = Boolean.parseBoolean(act.get("active").toString());
 
-            Log.e("ACTIVE", userId + ": "+ active);
-                for(int i = 0; i < messages.size(); i++) {
-                    Message m = messages.get(i);
-                    int mid = Integer.parseInt(m.getUser_id());
-                    if(mid == userId) {
-                        adapter.setActive(i, active);
-                        adapter.notifyDataSetChanged();
-                    }
 
+            for(int i = 0; i < messages.size(); i++) {
+                Message m = messages.get(i);
+                int mid = Integer.parseInt(m.getUser_id());
 
+                if(mid == userId) {
+                    adapter.setActive(i, active);
+                    adapter.notifyDataSetChanged();
                 }
+            }
 
         } catch(Exception e){
             Log.e("Exc", e.getLocalizedMessage());

@@ -1,4 +1,4 @@
-package ml.fastest.vgchat;
+package ml.fastest.vgchat.models;
 
 /**
  * Created by valik on 15.03.16.

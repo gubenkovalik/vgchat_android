@@ -28,7 +28,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -47,6 +47,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'jp.satorufujiwara:lighthttp:0.1.1'
+    compile 'jp.satorufujiwara:lighthttp-gson:0.1.1'
     compile 'com.github.navasmdc:MaterialDesign:1.5@aar'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
@@ -55,4 +56,6 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
     }
+    compile 'com.google.code.gson:gson:1.7.2'
+
 }

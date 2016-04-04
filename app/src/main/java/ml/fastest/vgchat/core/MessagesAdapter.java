@@ -1,9 +1,8 @@
-package ml.fastest.vgchat;
+package ml.fastest.vgchat.core;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
+
+import ml.fastest.vgchat.R;
+import ml.fastest.vgchat.models.Message;
 
 /**
  * Created by valik on 15.03.16.
@@ -133,7 +135,7 @@ public class MessagesAdapter extends BaseAdapter {
         int h = bitmap.getHeight();
 
         int[] pix = new int[w * h];
-        Log.e("pix", w + " " + h + " " + pix.length);
+
         bitmap.getPixels(pix, 0, w, 0, 0, w, h);
 
         int wm = w - 1;
@@ -319,7 +321,7 @@ public class MessagesAdapter extends BaseAdapter {
             }
         }
 
-        Log.e("pix", w + " " + h + " " + pix.length);
+
         bitmap.setPixels(pix, 0, w, 0, 0, w, h);
 
         return (bitmap);
