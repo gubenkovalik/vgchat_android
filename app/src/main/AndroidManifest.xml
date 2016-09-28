@@ -9,24 +9,27 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
 
     <application
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_content"
         android:icon="@drawable/vg"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:noHistory="true"
             android:excludeFromRecents="true"
-            android:label="VG Chat">
-
-        </activity>
+            android:label="VG Chat"
+            android:noHistory="true"></activity>
         <activity
-            android:launchMode="singleInstance"
             android:name=".ChatActivity"
-            android:label="VG Chat">
+            android:label="VG Chat"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,18 +37,25 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="https"
-                    android:host="fastest.ml" />
 
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:host="jencat.ml"></data>
+                <data android:scheme="https" />
+                <data android:scheme="http" />
+                <data android:pathPattern="/.*" />
             </intent-filter>
         </activity>
-
 
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="b096fb8a44d3dcf57f837858d2dcae4d90e9bd7c" />
+
+        <service
+            android:name=".gps.services.LocationService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

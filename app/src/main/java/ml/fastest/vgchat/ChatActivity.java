@@ -309,7 +309,7 @@ public class ChatActivity extends AppCompatActivity {
 
     {
         try {
-            mSocket = IO.socket("https://fastest.ml:3000");
+            mSocket = IO.socket(Facade.URL_PREFIX + ":3000");
         } catch (URISyntaxException e) {
         }
     }
@@ -346,7 +346,7 @@ public class ChatActivity extends AppCompatActivity {
                         //mp.start();
 
                     } catch (JSONException e) {
-                        return;
+
                     }
 
 
@@ -504,7 +504,7 @@ public class ChatActivity extends AppCompatActivity {
 
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
     }
