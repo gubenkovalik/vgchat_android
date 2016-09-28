@@ -23,6 +23,8 @@ import ml.fastest.vgchat.models.MessageSending;
  */
 public class Facade {
 
+    public static final String URL_PREFIX = "https://jencat.ml";
+    
     public static void login(final Context context, OnResult onResult, final String email, final String password) {
 
         new AsyncTask<OnResult, Void, Void>() {
@@ -37,7 +39,7 @@ public class Facade {
 
                 LightHttpClient httpClient = new LightHttpClient();
                 Request request = httpClient.newRequest()
-                        .url("https://fastest.ml/android/login?email=" + email + "&password=" + password)
+                        .url(URL_PREFIX + "/android/login?email=" + email + "&password=" + password)
                         .get()
                         .build();
                 try {
@@ -101,7 +103,7 @@ public class Facade {
 
                 LightHttpClient httpClient = new LightHttpClient();
                 Request request = httpClient.newRequest()
-                        .url("https://fastest.ml/android/register?email=" + email + "&password=" + password + "&nickname=" + nickname)
+                        .url(URL_PREFIX + "/android/register?email=" + email + "&password=" + password + "&nickname=" + nickname)
                         .get()
                         .build();
                 try {
@@ -172,7 +174,7 @@ public class Facade {
 
             LightHttpClient httpClient = new LightHttpClient();
             Request request = httpClient.newRequest()
-                    .url("https://fastest.ml/android/get?access_token=" + access_token)
+                    .url(URL_PREFIX + "/android/get?access_token=" + access_token)
                     .get()
                     .build();
             try {
@@ -220,7 +222,7 @@ public class Facade {
                 LightHttpClient httpClient = new LightHttpClient();
                 httpClient.setConverterProvider(new GsonConverterProvider());
                 Request request = httpClient.newRequest()
-                        .url("https://fastest.ml/android/send")
+                        .url(URL_PREFIX + "/android/send")
                         .post(message, MessageSending.class)
                         .build();
                 try {
