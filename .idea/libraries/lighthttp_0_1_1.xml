@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="lighthttp-0.1.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../gradle/caches/modules-2/files-2.1/jp.satorufujiwara/lighthttp/0.1.1/10d5cd25c7fa898ead7e531fcc99ee80bbffc729/lighthttp-0.1.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../gradle/caches/modules-2/files-2.1/jp.satorufujiwara/lighthttp/0.1.1/c459c8dad17ee57f2bcdb4b8c329dd0450f68c3e/lighthttp-0.1.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
